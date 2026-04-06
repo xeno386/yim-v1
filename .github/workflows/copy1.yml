@@ -1,0 +1,37 @@
+name: Copy & Archive YimMenu.dll
+
+permissions:
+  contents: write
+
+on:
+  push:
+    paths:
+      - 'YimMenu.dll'
+
+jobs:
+  copy-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Copy file
+        run: |
+          mkdir -p Yim
+          cp YimMenu.dll Yim/YimMenu.dll
+
+      - name: Create archive
+        run: |
+          zip -r Yim.zip Yim
+
+      - name: Commit and push if changed
+        if: github.actor != 'github-actions[bot]'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add Yim/YimMenu.dll Yim.zip
+
+          git diff --cached --quiet || git commit -m "Auto-update Yim folder and archive"
+          git push
