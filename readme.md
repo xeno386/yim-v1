@@ -1,1 +1,1 @@
-Yes
+Auto-updated YimMenu download.
