@@ -1,4 +1,7 @@
-name: Copy YimMenu.dll to Yim folder
+name: Copy & Archive YimMenu.dll
+
+permissions:
+  contents: write
 
 on:
   push:
@@ -18,12 +21,17 @@ jobs:
           mkdir -p Yim
           cp YimMenu.dll Yim/YimMenu.dll
 
+      - name: Create archive
+        run: |
+          zip -r Yim.zip Yim
+
       - name: Commit and push if changed
+        if: github.actor != 'github-actions[bot]'
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
-          git add Yim/YimMenu.dll
+          git add Yim/YimMenu.dll Yim.zip
 
-          git diff --cached --quiet || git commit -m "Auto-copy YimMenu.dll to Yim folder"
+          git diff --cached --quiet || git commit -m "Auto-update Yim folder and archive"
           git push
