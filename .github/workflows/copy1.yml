@@ -7,6 +7,7 @@ on:
   push:
     paths:
       - 'YimMenu.dll'
+  workflow_dispatch:
 
 jobs:
   copy-file:
