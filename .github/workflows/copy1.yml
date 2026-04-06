@@ -34,5 +34,5 @@ jobs:
 
           git add Yim/YimMenu.dll Yim.zip
 
-          git diff --cached --quiet || git commit -m "Auto-update Yim folder and archive"
+          git diff --cached --quiet || git commit -m "Auto Update"
           git push
